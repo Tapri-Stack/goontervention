@@ -1,6 +1,8 @@
-# Ignore artifacts:
 build
 coverage
 node_modules
+.pnpm-store/
 pnpm-lock.yaml
+yarn.lock
 pnpm-workspace.yaml
+package-lock.json

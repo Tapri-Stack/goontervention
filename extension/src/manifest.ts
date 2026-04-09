@@ -10,25 +10,38 @@ export default defineManifest({
     version: packageData.version,
     manifest_version: 3,
     icons: {
-        16: "icons/gooner.png",
-        32: "icons/gooner.png",
-        48: "icons/gooner.png",
-        128: "icons/gooner.png",
+        16: "stare.png",
+        32: "stare.png",
+        48: "stare.png",
+        128: "stare.png",
     },
     action: {
         default_popup: "popup.html",
-        default_icon: "icons/gooner.png",
+        default_icon: "stare.png",
     },
     background: {
         service_worker: "src/background/index.ts",
         type: "module",
     },
-    web_accessible_resources: [
+    content_scripts: [
         {
-            resources: ["icons/gooner.png"],
-            matches: [],
+            matches: [isDev ? "http://localhost:5174/*" : "https://goon.tapri.dev/*"],
+            js: ["src/content/index.ts"],
         },
     ],
+    externally_connectable: {
+        matches: [isDev ? "http://localhost:5174/*" : "https://goon.tapri.dev/*"],
+    },
+    web_accessible_resources: [
+        {
+            resources: ["stare.png"],
+            matches: [],
+        },
+        {
+            resources: ["injected.ts"],
+            matches: [isDev ? "http://localhost:5174/*" : "https://goon.tapri.dev/*"]
+        }
+    ],
     permissions: ["tabs", "storage", "webNavigation"],
-    host_permissions: ["*://youtube.com/*", "*://youtu.be/*", "https://goon.tapri.dev/*"],
+    host_permissions: ["*://youtube.com/*", "*://youtu.be/*", isDev ? "http://localhost:5174/*" : "https://goon.tapri.dev/*"],
 })
