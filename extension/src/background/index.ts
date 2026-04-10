@@ -1,3 +1,5 @@
+import constants from "../constants.json"
+
 const changeIcon = (iconName: string, resetAfter: number) => {
     chrome.action.setIcon({ path: iconName })
 
@@ -7,7 +9,7 @@ const changeIcon = (iconName: string, resetAfter: number) => {
 }
 
 chrome.webNavigation.onCommitted.addListener(async (details) => {
-    if (!/.*(youtube|youtu.be).*/.test(details.url)) {
+    if (!new RegExp(`.*(${constants.goonerList.join('|')}).*`).test(details.url)) {
         const wasAboutToGoon = (await chrome.storage.local.get<{ aboutToGoon?: boolean }>(["aboutToGoon"])).aboutToGoon || false
 
         if (!wasAboutToGoon) {

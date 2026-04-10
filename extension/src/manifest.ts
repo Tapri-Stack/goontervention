@@ -1,5 +1,6 @@
 import { defineManifest } from "@crxjs/vite-plugin"
 import packageData from "../package.json"
+import constants from "./constants.json"
 
 //@ts-ignore
 const isDev = process.env.NODE_ENV == "development"
@@ -43,5 +44,5 @@ export default defineManifest({
         }
     ],
     permissions: ["tabs", "storage", "webNavigation"],
-    host_permissions: ["*://youtube.com/*", "*://youtu.be/*", isDev ? "http://localhost:5174/*" : "https://goon.tapri.dev/*"],
+    host_permissions: [...constants.goonerList.map((url) => `*://${url}/*`), isDev ? "http://localhost:5174/*" : "https://goon.tapri.dev/*"]
 })
